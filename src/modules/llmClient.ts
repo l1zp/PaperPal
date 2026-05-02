@@ -124,8 +124,14 @@ function parseDelta(data: string): string {
   }
 }
 
-export async function chatOnce(o: ChatOpts, maxTokens?: number): Promise<string> {
-  const res = await postChat(o, false, maxTokens ? { max_tokens: maxTokens } : {});
+export async function chatOnce(
+  o: ChatOpts,
+  maxTokens?: number,
+  extra?: Record<string, unknown>,
+): Promise<string> {
+  const merged: Record<string, unknown> = { ...(extra ?? {}) };
+  if (maxTokens) merged.max_tokens = maxTokens;
+  const res = await postChat(o, false, merged);
   const obj = (await res.json()) as {
     choices?: Array<{ message?: { content?: string } }>;
   };

@@ -15,6 +15,7 @@ export async function onStartup(): Promise<void> {
   registerLocale();
   await registerPrefsPane();
   addon.data.chatPanel.register();
+  addon.data.translatePopup.register();
 
   addon.data.initialized = true;
   Zotero.debug("[PaperPal] startup complete");
@@ -24,6 +25,7 @@ export async function onShutdown(): Promise<void> {
   const addon = getAddon();
   if (!addon || !addon.data.initialized) return;
   addon.data.chatPanel.unregister();
+  addon.data.translatePopup.unregister();
   await addon.data.summaryStore.shutdown();
   try {
     addon.data.ztoolkit.unregisterAll();

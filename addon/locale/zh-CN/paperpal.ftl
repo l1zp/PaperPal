@@ -24,3 +24,9 @@ paperpal-status-no-selection = 当前没有选中文本，请先在 PDF 中选�
 paperpal-status-config-missing = 请先在偏好里配置 Base URL 和 API Key。
 
 paperpal-error-prefix = 出错了
+
+paperpal-btn-translate = 翻译
+paperpal-translating = 翻译中…
+paperpal-translate-copy = 复制
+paperpal-translate-copied = 已复制
+paperpal-translate-not-configured = 请先在偏好里配置翻译模型 Base URL 和模型名
