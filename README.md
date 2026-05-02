@@ -1,20 +1,29 @@
 # PaperPal
 
-> Zotero 7 阅读器侧边栏 LLM 对话插件
-
-打开 PDF 后在阅读器右侧栏与论文实时对话。一键生成可持久化的论文要点，后续每轮提问都会自动把要点作为压缩上下文带上。OpenAI 兼容协议，覆盖 OpenAI / DeepSeek / 智谱 / Moonshot / SiliconFlow / OpenRouter / 无问芯穹 / 任何兼容 chat completion 的本地推理服务。
+> Zotero 7 阅读器 LLM 增强插件 — 侧边栏聊天 + 选中文本一键本地翻译
 
 <p align="center">
   <img src="addon/content/icons/favicon@2x.png" width="64" height="64" alt="PaperPal icon" />
 </p>
+
+打开 PDF 后两件事一气呵成：
+
+- **阅读器右侧栏**和论文实时对话。一键生成可持久化的论文要点，后续每轮提问都会自动把要点作为压缩上下文带上
+- **选中文字**直接弹出"翻译"按钮，调用本地 mlx-lm 跑的 Hunyuan-MT 1.8B 等小模型，毫秒级返回中文译文
+
+LLM 走 OpenAI 兼容协议，云端覆盖 OpenAI / DeepSeek / 智谱 / Moonshot / SiliconFlow / OpenRouter / 无问芯穹；本地覆盖 mlx-lm / vLLM / Ollama 等任何兼容 chat completion 的推理服务。
 
 ## 快速安装
 
 1. 到 [Releases](https://github.com/l1zp/PaperPal/releases) 下载最新的 `paper-pal.xpi`
 2. Zotero 7 → `工具 / Tools → 插件 / Plugins → ⚙ → Install Plugin From File…`
 3. 选刚下载的 `paper-pal.xpi` → `Install Now` → 重启 Zotero
-4. `编辑 → 设置`，左侧选 `PaperPal`，填 Base URL / API Key / 模型名 → 点 "测试连接"
-5. 双击任意 PDF → 阅读器右侧栏点 PaperPal 图标（紫色对话气泡）
+4. `编辑 → 设置`，左侧选 `PaperPal`：
+   - **聊天**：填 Base URL / API Key / 模型名 → 点 "测试连接" 验证
+   - **本地翻译**（可选）：本地起 mlx-lm，详见下面"本地翻译配置"
+5. 双击任意 PDF：
+   - 右侧栏点紫色对话气泡 → 与论文对话
+   - 选中一段文字 → 弹出条点 "翻译" → 看译文
 
 ## 功能
 
@@ -67,19 +76,31 @@
 
 ```bash
 pip install mlx-lm
-mlx_lm.server --model mlx-community/HY-MT1.5-1.8B-4bit \
-              --host 127.0.0.1 \
-              --port 8000
+
+# 国内推荐用 hf-mirror，否则首次下载 1GB 容易卡死
+HF_ENDPOINT=https://hf-mirror.com \
+  mlx_lm.server --model mlx-community/HY-MT1.5-1.8B-4bit \
+                --host 127.0.0.1 \
+                --port 8000
 ```
 
-首次启动会从 HuggingFace 下载约 1GB 模型权重，之后秒启。
+首次启动会下载约 1GB 模型权重到 `~/.cache/huggingface/`，之后秒启。
 
-**其他平台：vLLM / Ollama / 兼容服务**
+启好后另开终端验证：
 
-任何 OpenAI 兼容的 chat completion 服务都可以，只要 endpoint 能接收：
+```bash
+curl http://127.0.0.1:8000/v1/models       # 应该返回模型 id
+curl http://127.0.0.1:8000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{"model":"mlx-community/HY-MT1.5-1.8B-4bit","messages":[{"role":"user","content":"把下面的文本翻译成中文，不要额外解释。\n\nHello, world."}]}'
+```
+
+**其他平台：vLLM / Ollama / 任意 OpenAI 兼容服务**
+
+任何能接收下面这种请求的 chat completion endpoint 都可以：
 
 ```json
-{"model":"...", "messages":[{"role":"user","content":"翻译指令\n\n原文"}]}
+{"model": "...", "messages": [{"role":"user", "content":"翻译指令\n\n原文"}]}
 ```
 
 偏好里 "本地翻译" 一栏：
@@ -92,3 +113,5 @@ mlx_lm.server --model mlx-community/HY-MT1.5-1.8B-4bit \
 | 目标语言 | 中文 | 中 / 英 / 日 / 韩 / 法 / 德 / 西 / 俄 |
 
 使用：在 PDF 里选中文字 → 阅读器自带的弹出条会多出一个紫色的 "翻译" 按钮 → 点击 → 几秒后下方出现译文 + "复制" 按钮。
+
+> Hunyuan-MT 偶尔会在末尾输出 `<|hy_place_holder_no_2|>` 之类的占位 token，PaperPal 已在客户端清洗，不会显示给你。
