@@ -1,0 +1,96 @@
+<vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+      xmlns:html="http://www.w3.org/1999/xhtml"
+      id="paperpal-prefs-pane"
+      onload="Zotero.PaperPal.hooks.onPrefsLoad(window)">
+
+  <html:link rel="localization" href="paperpal-preferences.ftl" />
+
+  <groupbox>
+    <html:h2 data-l10n-id="prefs-section-llm">大语言模型配置</html:h2>
+
+    <html:div style="display:flex; gap:8px; align-items:center; padding:4px 0;">
+      <html:label data-l10n-id="prefs-base-url" style="min-width:140px;">Base URL</html:label>
+      <html:input type="text" style="flex:1;"
+                  preference="extensions.zotero.paperpal.baseUrl" />
+    </html:div>
+    <html:p style="opacity:0.7;font-size:11px;margin:0 0 8px 140px;"
+            data-l10n-id="prefs-base-url-hint">
+      OpenAI 兼容接口地址，例：https://api.openai.com/v1
+    </html:p>
+
+    <html:div style="display:flex; gap:8px; align-items:center; padding:4px 0;">
+      <html:label data-l10n-id="prefs-api-key" style="min-width:140px;">API Key</html:label>
+      <html:input type="password" style="flex:1;"
+                  preference="extensions.zotero.paperpal.apiKey" />
+    </html:div>
+
+    <html:div style="display:flex; gap:8px; align-items:center; padding:4px 0;">
+      <html:label data-l10n-id="prefs-model" style="min-width:140px;">模型名</html:label>
+      <html:input type="text" style="flex:1;"
+                  preference="extensions.zotero.paperpal.model" />
+    </html:div>
+
+    <html:div style="display:flex; gap:8px; align-items:center; padding:4px 0;">
+      <html:label data-l10n-id="prefs-temperature" style="min-width:140px;">温度</html:label>
+      <html:input type="text" style="flex:1;"
+                  preference="extensions.zotero.paperpal.temperature" />
+    </html:div>
+
+    <html:div style="display:flex; gap:8px; align-items:center; padding:4px 0;">
+      <html:label data-l10n-id="prefs-max-tokens" style="min-width:140px;">最大上下文 token</html:label>
+      <html:input type="number" min="1000" max="200000" step="1000" style="flex:1;"
+                  preference="extensions.zotero.paperpal.maxContextTokens" />
+    </html:div>
+
+    <html:div style="display:flex; gap:8px; align-items:center; padding:4px 0;">
+      <html:label data-l10n-id="prefs-default-mode" style="min-width:140px;">默认模式</html:label>
+      <html:select preference="extensions.zotero.paperpal.defaultMode" style="flex:1;">
+        <html:option value="full" data-l10n-id="prefs-default-mode-full">全文</html:option>
+        <html:option value="selection" data-l10n-id="prefs-default-mode-selection">选中文本</html:option>
+      </html:select>
+    </html:div>
+
+    <html:div style="display:flex; gap:8px; align-items:center; padding:8px 0 4px;">
+      <html:input type="checkbox" id="paperpal-auto-summarize"
+                  preference="extensions.zotero.paperpal.autoSummarizeOnOpen" />
+      <html:label for="paperpal-auto-summarize"
+                  data-l10n-id="prefs-auto-summarize">
+        打开论文时自动生成总结（会消耗 API 配额）
+      </html:label>
+    </html:div>
+  </groupbox>
+
+  <groupbox>
+    <html:h2 data-l10n-id="prefs-section-prompts">提示词</html:h2>
+
+    <html:div style="padding:4px 0;">
+      <html:label data-l10n-id="prefs-system-prompt"
+                  style="display:block;margin-bottom:4px;font-weight:500;">
+        聊天系统提示词
+      </html:label>
+      <html:textarea rows="4" style="width:100%;box-sizing:border-box;"
+                     preference="extensions.zotero.paperpal.systemPrompt" />
+    </html:div>
+
+    <html:div style="padding:4px 0;">
+      <html:label data-l10n-id="prefs-summary-prompt"
+                  style="display:block;margin-bottom:4px;font-weight:500;">
+        总结系统提示词
+      </html:label>
+      <html:textarea rows="4" style="width:100%;box-sizing:border-box;"
+                     preference="extensions.zotero.paperpal.summarySystemPrompt" />
+    </html:div>
+  </groupbox>
+
+  <groupbox>
+    <html:h2 data-l10n-id="prefs-section-test">连接测试</html:h2>
+    <html:div style="display:flex; gap:8px; align-items:center; padding:4px 0;">
+      <html:button id="paperpal-test-button"
+                   data-l10n-id="prefs-test-button">
+        测试连接
+      </html:button>
+      <html:span id="paperpal-test-result" style="margin-left:8px;"></html:span>
+    </html:div>
+  </groupbox>
+
+</vbox>

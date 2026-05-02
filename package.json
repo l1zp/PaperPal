@@ -1,0 +1,41 @@
+{
+  "name": "paperpal",
+  "version": "0.1.0",
+  "description": "Zotero 7 阅读器侧边栏 LLM 对话插件 — 与论文实时聊天",
+  "config": {
+    "addonName": "PaperPal",
+    "addonID": "paperpal@local",
+    "addonRef": "paperpal",
+    "addonInstance": "PaperPal",
+    "prefsPrefix": "extensions.zotero.paperpal"
+  },
+  "type": "module",
+  "main": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/l1zp/PaperPal.git"
+  },
+  "scripts": {
+    "start": "zotero-plugin serve",
+    "build": "zotero-plugin build",
+    "release": "zotero-plugin release",
+    "lint": "eslint . --ext .ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "katex": "^0.16.22",
+    "marked": "^15.0.0",
+    "zotero-plugin-toolkit": "^5.1.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0",
+    "zotero-plugin-scaffold": "^0.8.6",
+    "zotero-types": "^4.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
