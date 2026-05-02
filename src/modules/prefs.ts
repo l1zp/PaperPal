@@ -2,6 +2,8 @@ const PREFIX = "extensions.zotero.paperpal.";
 
 export type ContextMode = "full" | "selection";
 
+export type TargetLang = "zh-CN" | "en" | "ja" | "ko" | "fr" | "de" | "es" | "ru";
+
 export interface PluginConfig {
   baseUrl: string;
   apiKey: string;
@@ -12,6 +14,13 @@ export interface PluginConfig {
   systemPrompt: string;
   summarySystemPrompt: string;
   autoSummarizeOnOpen: boolean;
+}
+
+export interface TranslateConfig {
+  baseUrl: string;
+  apiKey: string;
+  model: string;
+  targetLang: TargetLang;
 }
 
 function getStr(key: string, fallback = ""): string {
@@ -53,4 +62,24 @@ export function getConfig(): PluginConfig {
 export function isConfigured(): boolean {
   const c = getConfig();
   return !!(c.baseUrl && c.apiKey && c.model);
+}
+
+const SUPPORTED_LANGS: TargetLang[] = ["zh-CN", "en", "ja", "ko", "fr", "de", "es", "ru"];
+
+function normLang(v: string): TargetLang {
+  return (SUPPORTED_LANGS as string[]).includes(v) ? (v as TargetLang) : "zh-CN";
+}
+
+export function getTranslateConfig(): TranslateConfig {
+  return {
+    baseUrl: getStr("translateBaseUrl", "http://localhost:8000/v1").replace(/\/+$/, ""),
+    apiKey: getStr("translateApiKey", "EMPTY"),
+    model: getStr("translateModel", "tencent/HY-MT1.5-1.8B"),
+    targetLang: normLang(getStr("translateTargetLang", "zh-CN")),
+  };
+}
+
+export function isTranslateConfigured(): boolean {
+  const c = getTranslateConfig();
+  return !!(c.baseUrl && c.model);
 }

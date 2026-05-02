@@ -17,6 +17,10 @@ declare namespace _ZoteroTypes {
       "systemPrompt": string;
       "summarySystemPrompt": string;
       "charsPerToken": string;
+      "translateBaseUrl": string;
+      "translateApiKey": string;
+      "translateModel": string;
+      "translateTargetLang": string;
     };
   }
 }

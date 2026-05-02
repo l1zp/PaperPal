@@ -1,6 +1,6 @@
 {
   "name": "paperpal",
-  "version": "0.1.0",
+  "version": "0.2.0-dev",
   "description": "Zotero 7 阅读器侧边栏 LLM 对话插件 — 与论文实时聊天",
   "config": {
     "addonName": "PaperPal",

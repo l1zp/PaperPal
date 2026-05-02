@@ -83,6 +83,50 @@
   </groupbox>
 
   <groupbox>
+    <html:h2 data-l10n-id="prefs-section-translate">本地翻译（推荐 Hunyuan-MT 1.8B）</html:h2>
+
+    <html:div style="display:flex; gap:8px; align-items:center; padding:4px 0;">
+      <html:label data-l10n-id="prefs-translate-base-url" style="min-width:140px;">Base URL</html:label>
+      <html:input type="text" style="flex:1;"
+                  preference="extensions.zotero.paperpal.translateBaseUrl" />
+    </html:div>
+    <html:p style="opacity:0.7;font-size:11px;margin:0 0 8px 140px;"
+            data-l10n-id="prefs-translate-base-url-hint">
+      mlx-lm / Ollama 等本地 OpenAI 兼容服务，例：http://localhost:8000/v1
+    </html:p>
+
+    <html:div style="display:flex; gap:8px; align-items:center; padding:4px 0;">
+      <html:label data-l10n-id="prefs-translate-api-key" style="min-width:140px;">API Key</html:label>
+      <html:input type="text" style="flex:1;"
+                  preference="extensions.zotero.paperpal.translateApiKey" />
+    </html:div>
+    <html:p style="opacity:0.7;font-size:11px;margin:0 0 8px 140px;"
+            data-l10n-id="prefs-translate-api-key-hint">
+      vLLM 默认不校验，留 EMPTY 即可
+    </html:p>
+
+    <html:div style="display:flex; gap:8px; align-items:center; padding:4px 0;">
+      <html:label data-l10n-id="prefs-translate-model" style="min-width:140px;">模型名</html:label>
+      <html:input type="text" style="flex:1;"
+                  preference="extensions.zotero.paperpal.translateModel" />
+    </html:div>
+
+    <html:div style="display:flex; gap:8px; align-items:center; padding:4px 0;">
+      <html:label data-l10n-id="prefs-translate-target" style="min-width:140px;">目标语言</html:label>
+      <html:select preference="extensions.zotero.paperpal.translateTargetLang" style="flex:1;">
+        <html:option value="zh-CN" data-l10n-id="prefs-translate-target-zh">中文</html:option>
+        <html:option value="en" data-l10n-id="prefs-translate-target-en">英文</html:option>
+        <html:option value="ja" data-l10n-id="prefs-translate-target-ja">日文</html:option>
+        <html:option value="ko" data-l10n-id="prefs-translate-target-ko">韩文</html:option>
+        <html:option value="fr" data-l10n-id="prefs-translate-target-fr">法文</html:option>
+        <html:option value="de" data-l10n-id="prefs-translate-target-de">德文</html:option>
+        <html:option value="es" data-l10n-id="prefs-translate-target-es">西班牙文</html:option>
+        <html:option value="ru" data-l10n-id="prefs-translate-target-ru">俄文</html:option>
+      </html:select>
+    </html:div>
+  </groupbox>
+
+  <groupbox>
     <html:h2 data-l10n-id="prefs-section-test">连接测试</html:h2>
     <html:div style="display:flex; gap:8px; align-items:center; padding:4px 0;">
       <html:button id="paperpal-test-button"

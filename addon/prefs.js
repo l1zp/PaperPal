@@ -15,3 +15,9 @@ pref(
   "你是一名严谨的中文学术阅读助手。请基于用户提供的论文，用中文按以下结构提炼要点：研究问题 / 方法 / 主要结论 / 局限与未来方向 / 关键术语。每节用 Markdown 列表呈现，不要超过 600 字。",
 );
 pref("charsPerToken", "3");
+
+// 本地翻译（推荐 Apple Silicon 用 mlx-lm 跑 HY-MT1.5-1.8B-4bit）
+pref("translateBaseUrl", "http://localhost:8000/v1");
+pref("translateApiKey", "EMPTY");
+pref("translateModel", "mlx-community/HY-MT1.5-1.8B-4bit");
+pref("translateTargetLang", "zh-CN");

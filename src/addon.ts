@@ -1,5 +1,6 @@
 import { ChatPanel } from "./modules/chatPanel";
 import { SummaryStore } from "./modules/summaryStore";
+import { TranslatePopup } from "./modules/popup";
 import { ZToolkit, createZToolkit } from "./utils/ztoolkit";
 import * as api from "./modules/api";
 import * as hooksImpl from "./hooks";
@@ -10,6 +11,7 @@ export class Addon {
     ztoolkit: ZToolkit;
     summaryStore: SummaryStore;
     chatPanel: ChatPanel;
+    translatePopup: TranslatePopup;
     prefsObserverID: symbol | null;
   };
   hooks: typeof hooksImpl;
@@ -23,6 +25,7 @@ export class Addon {
       ztoolkit,
       summaryStore,
       chatPanel: new ChatPanel(summaryStore),
+      translatePopup: new TranslatePopup(),
       prefsObserverID: null,
     };
     this.hooks = hooksImpl;
