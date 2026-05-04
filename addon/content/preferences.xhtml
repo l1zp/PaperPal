@@ -124,10 +124,18 @@
         <html:option value="ru" data-l10n-id="prefs-translate-target-ru">俄文</html:option>
       </html:select>
     </html:div>
+
+    <html:div style="display:flex; gap:8px; align-items:center; padding:8px 0 4px;">
+      <html:button id="paperpal-test-translate-button"
+                   data-l10n-id="prefs-test-translate-button">
+        测试翻译连接
+      </html:button>
+      <html:span id="paperpal-test-translate-result" style="margin-left:8px;"></html:span>
+    </html:div>
   </groupbox>
 
   <groupbox>
-    <html:h2 data-l10n-id="prefs-section-test">连接测试</html:h2>
+    <html:h2 data-l10n-id="prefs-section-test">聊天连接测试</html:h2>
     <html:div style="display:flex; gap:8px; align-items:center; padding:4px 0;">
       <html:button id="paperpal-test-button"
                    data-l10n-id="prefs-test-button">

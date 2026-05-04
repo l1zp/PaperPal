@@ -1,23 +1,22 @@
 import { chatOnce, LLMError } from "./llmClient";
-import { getConfig } from "./prefs";
+import { getConfig, getTranslateConfig } from "./prefs";
 import { getString } from "../utils/locale";
 
-function findResultElement(prefsWindow?: Window): HTMLElement | null {
+function findElementById(id: string, prefsWindow?: Window): HTMLElement | null {
   if (prefsWindow?.document) {
-    const el = prefsWindow.document.getElementById("paperpal-test-result");
+    const el = prefsWindow.document.getElementById(id);
     if (el) return el as HTMLElement;
   }
   for (const w of Zotero.getMainWindows()) {
-    const el = w.document.getElementById("paperpal-test-result");
+    const el = w.document.getElementById(id);
     if (el) return el as HTMLElement;
   }
-  // fall back: scan any open window for the element
   try {
     const Services = (globalThis as any).Services;
     const e = Services?.wm?.getEnumerator(null);
     while (e?.hasMoreElements?.()) {
       const w = e.getNext() as Window;
-      const el = w?.document?.getElementById?.("paperpal-test-result");
+      const el = w?.document?.getElementById?.(id);
       if (el) return el as HTMLElement;
     }
   } catch {
@@ -26,14 +25,22 @@ function findResultElement(prefsWindow?: Window): HTMLElement | null {
   return null;
 }
 
-export async function testConnection(prefsWindow?: Window): Promise<void> {
-  const cfg = getConfig();
-  const resultEl = findResultElement(prefsWindow);
+interface TestTarget {
+  resultElID: string;
+  baseUrl: string;
+  apiKey: string;
+  model: string;
+  needsKey: boolean;
+}
+
+async function runTest(target: TestTarget, prefsWindow?: Window): Promise<void> {
+  const resultEl = findElementById(target.resultElID, prefsWindow);
   if (resultEl) {
     resultEl.textContent = getString("prefs-test-pending");
     resultEl.style.color = "";
   }
-  if (!cfg.baseUrl || !cfg.apiKey || !cfg.model) {
+  const missingKey = target.needsKey && !target.apiKey;
+  if (!target.baseUrl || missingKey || !target.model) {
     if (resultEl) {
       resultEl.textContent = getString("paperpal-status-config-missing");
       resultEl.style.color = "#b00";
@@ -44,9 +51,9 @@ export async function testConnection(prefsWindow?: Window): Promise<void> {
   try {
     const reply = await chatOnce(
       {
-        baseUrl: cfg.baseUrl,
-        apiKey: cfg.apiKey,
-        model: cfg.model,
+        baseUrl: target.baseUrl,
+        apiKey: target.apiKey || "EMPTY",
+        model: target.model,
         temperature: 0,
         messages: [{ role: "user", content: "ping" }],
       },
@@ -54,10 +61,10 @@ export async function testConnection(prefsWindow?: Window): Promise<void> {
     );
     const ms = Date.now() - t0;
     if (resultEl) {
-      resultEl.textContent = getString("prefs-test-ok", { ms, model: cfg.model });
+      resultEl.textContent = getString("prefs-test-ok", { ms, model: target.model });
       resultEl.style.color = "#087";
     }
-    Zotero.debug(`[PaperPal] testConnection ok: reply=${reply.slice(0, 50)}`);
+    Zotero.debug(`[PaperPal] test ok: reply=${reply.slice(0, 50)}`);
   } catch (e) {
     const msg = e instanceof LLMError ? e.message : (e as Error).message ?? String(e);
     if (resultEl) {
@@ -65,4 +72,32 @@ export async function testConnection(prefsWindow?: Window): Promise<void> {
       resultEl.style.color = "#b00";
     }
   }
+}
+
+export async function testConnection(prefsWindow?: Window): Promise<void> {
+  const cfg = getConfig();
+  await runTest(
+    {
+      resultElID: "paperpal-test-result",
+      baseUrl: cfg.baseUrl,
+      apiKey: cfg.apiKey,
+      model: cfg.model,
+      needsKey: true,
+    },
+    prefsWindow,
+  );
+}
+
+export async function testTranslateConnection(prefsWindow?: Window): Promise<void> {
+  const cfg = getTranslateConfig();
+  await runTest(
+    {
+      resultElID: "paperpal-test-translate-result",
+      baseUrl: cfg.baseUrl,
+      apiKey: cfg.apiKey,
+      model: cfg.model,
+      needsKey: false,
+    },
+    prefsWindow,
+  );
 }

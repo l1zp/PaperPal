@@ -77,14 +77,19 @@ LLM 走 OpenAI 兼容协议，云端覆盖 OpenAI / DeepSeek / 智谱 / Moonshot
 ```bash
 pip install mlx-lm
 
-# 国内推荐用 hf-mirror，否则首次下载 1GB 容易卡死
+# 首次启动：从镜像下载约 1GB 模型权重到 ~/.cache/huggingface/
 HF_ENDPOINT=https://hf-mirror.com \
   mlx_lm.server --model mlx-community/HY-MT1.5-1.8B-4bit \
                 --host 127.0.0.1 \
                 --port 8000
-```
 
-首次启动会下载约 1GB 模型权重到 `~/.cache/huggingface/`，之后秒启。
+# 后续启动：模型已缓存，强烈建议加 HF_HUB_OFFLINE=1，否则每次请求 mlx-lm
+# 都会去 huggingface.co 校验文件是否更新，国内网络下会偶发卡死
+HF_HUB_OFFLINE=1 \
+  mlx_lm.server --model mlx-community/HY-MT1.5-1.8B-4bit \
+                --host 127.0.0.1 \
+                --port 8000
+```
 
 启好后另开终端验证：
 

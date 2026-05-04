@@ -70,11 +70,17 @@ function normLang(v: string): TargetLang {
   return (SUPPORTED_LANGS as string[]).includes(v) ? (v as TargetLang) : "zh-CN";
 }
 
+function normalizeBaseUrl(raw: string): string {
+  let v = raw.trim().replace(/\/+$/, "");
+  if (v && !/^https?:\/\//i.test(v)) v = "http://" + v;
+  return v;
+}
+
 export function getTranslateConfig(): TranslateConfig {
   return {
-    baseUrl: getStr("translateBaseUrl", "http://localhost:8000/v1").replace(/\/+$/, ""),
+    baseUrl: normalizeBaseUrl(getStr("translateBaseUrl", "http://localhost:8000/v1")),
     apiKey: getStr("translateApiKey", "EMPTY"),
-    model: getStr("translateModel", "tencent/HY-MT1.5-1.8B"),
+    model: getStr("translateModel", "mlx-community/HY-MT1.5-1.8B-4bit"),
     targetLang: normLang(getStr("translateTargetLang", "zh-CN")),
   };
 }

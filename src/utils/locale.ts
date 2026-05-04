@@ -5,7 +5,10 @@ let bundle: any = null;
 function getBundle(): any {
   if (!bundle) {
     try {
-      bundle = new Localization(["paperpal-paperpal.ftl"], true);
+      bundle = new Localization(
+        ["paperpal-paperpal.ftl", "paperpal-preferences.ftl"],
+        true,
+      );
     } catch (e) {
       Zotero.debug(`[PaperPal] failed to create Localization: ${e}`);
       bundle = null;

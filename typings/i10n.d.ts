@@ -48,6 +48,7 @@ export type FluentMessageId =
   | 'prefs-test-fail'
   | 'prefs-test-ok'
   | 'prefs-test-pending'
+  | 'prefs-test-translate-button'
   | 'prefs-title'
   | 'prefs-translate-api-key'
   | 'prefs-translate-api-key-hint'

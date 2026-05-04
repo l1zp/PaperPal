@@ -32,7 +32,9 @@ prefs-translate-target-de = 德文
 prefs-translate-target-es = 西班牙文
 prefs-translate-target-ru = 俄文
 
-prefs-section-test = 连接测试
+prefs-test-translate-button = 测试翻译连接
+
+prefs-section-test = 聊天连接测试
 prefs-test-button = 测试连接
 prefs-test-pending = 正在测试…
 prefs-test-ok = 连接成功（耗时 { $ms } ms，模型: { $model }）

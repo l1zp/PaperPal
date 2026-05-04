@@ -46,11 +46,18 @@ export async function onMainWindowUnload(_window: Window): Promise<void> {
 export function onPrefsLoad(prefsWindow: Window): void {
   try {
     const doc = prefsWindow.document;
-    const btn = doc.getElementById("paperpal-test-button");
-    if (btn && !(btn as any)._paperpalBound) {
-      (btn as any)._paperpalBound = true;
-      btn.addEventListener("click", () => {
+    const chatBtn = doc.getElementById("paperpal-test-button");
+    if (chatBtn && !(chatBtn as any)._paperpalBound) {
+      (chatBtn as any)._paperpalBound = true;
+      chatBtn.addEventListener("click", () => {
         void getAddon().api.testConnection(prefsWindow);
+      });
+    }
+    const translateBtn = doc.getElementById("paperpal-test-translate-button");
+    if (translateBtn && !(translateBtn as any)._paperpalBound) {
+      (translateBtn as any)._paperpalBound = true;
+      translateBtn.addEventListener("click", () => {
+        void getAddon().api.testTranslateConnection(prefsWindow);
       });
     }
   } catch (e) {
