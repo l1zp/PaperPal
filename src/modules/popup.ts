@@ -70,7 +70,7 @@ export class TranslatePopup {
     result.hidden = true;
     result.setAttribute(
       "style",
-      "background:rgba(123,62,232,0.08);border-left:3px solid #7B3EE8;padding:6px 8px;border-radius:3px;max-height:220px;overflow:auto;line-height:1.55;white-space:pre-wrap;word-wrap:break-word;display:flex;flex-direction:column;gap:6px;color:#222;",
+      RESULT_STYLE_OK,
     );
 
     btn.addEventListener("click", async () => {
@@ -119,7 +119,7 @@ export class TranslatePopup {
 }
 
 const RESULT_STYLE_OK =
-  "background:rgba(123,62,232,0.08);border-left:3px solid #7B3EE8;padding:6px 8px;border-radius:3px;max-height:220px;overflow:auto;line-height:1.55;white-space:pre-wrap;word-wrap:break-word;display:flex;flex-direction:column;gap:6px;color:#222;";
+  "background:rgba(123,62,232,0.08);border-left:3px solid #7B3EE8;padding:6px 8px;border-radius:3px;max-height:220px;overflow:auto;line-height:1.55;white-space:pre-wrap;word-wrap:break-word;display:flex;flex-direction:column;gap:6px;color:var(--fill-primary,CanvasText);";
 const RESULT_STYLE_ERR =
   "background:#fde2e2;border-left:3px solid #b00020;padding:6px 8px;border-radius:3px;max-height:220px;overflow:auto;line-height:1.55;white-space:pre-wrap;word-wrap:break-word;color:#8a1f1f;";
 
@@ -135,7 +135,7 @@ function showResult(target: HTMLElement, doc: Document, text: string): void {
   copy.textContent = getString("paperpal-translate-copy");
   copy.setAttribute(
     "style",
-    "align-self:flex-end;padding:2px 10px;font-size:11px;background:#fff;border:1px solid #7B3EE8;color:#7B3EE8;border-radius:3px;cursor:pointer;",
+    "align-self:flex-end;padding:2px 10px;font-size:11px;background:var(--material-background,Canvas);border:1px solid #7B3EE8;color:#7B3EE8;border-radius:3px;cursor:pointer;",
   );
   copy.addEventListener("click", () => {
     try {

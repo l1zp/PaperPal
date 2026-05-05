@@ -167,6 +167,7 @@
 .pp-translate-result {
   background: rgba(123, 62, 232, 0.06);
   border-left: 3px solid #7B3EE8;
+  color: var(--fill-primary, CanvasText);
   padding: 6px 8px;
   border-radius: 3px;
   max-height: 220px;
